@@ -5,11 +5,12 @@ from firebase_admin import db
 import pandas as pd
 import json
 
+
 firebase_credentials = json.loads(json.dumps({
     "type": st.secrets["type"],
     "project_id": st.secrets["project_id"],
     "private_key_id": st.secrets["private_key_id"],
-    "private_key": st.secrets["private_key"].replace("\\n", "\n"),  # Ensure proper formatting
+    "private_key": st.secrets["private_key"].replace("\\n", "\n"),  
     "client_email": st.secrets["client_email"],
     "client_id": st.secrets["client_id"],
     "auth_uri": st.secrets["auth_uri"],
@@ -19,12 +20,11 @@ firebase_credentials = json.loads(json.dumps({
     "universe_domain": st.secrets["universe_domain"]
 }))
 
-
-
-cred = credentials.Certificate(firebase_credentials)  
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://wakefield-scoreboard-default-rtdb.firebaseio.com/'  
-})
+if not firebase_admin._apps:  
+    cred = credentials.Certificate(firebase_credentials)
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://wakefield-scoreboard-default-rtdb.firebaseio.com/'
+    })
 
 def fetch_scores():
     scores_ref = db.reference('users')
@@ -42,8 +42,6 @@ if scores:
         reverse=True
     )
     score_data = pd.DataFrame(sorted_scores, columns=["Name", "Score"])
-
-    
     st.table(score_data)
 else:
     st.write("No scores available.")
