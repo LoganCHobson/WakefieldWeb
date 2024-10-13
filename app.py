@@ -3,12 +3,10 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 import pandas as pd
-import os
 import json
 
-# Initialize Firebase
-cred_json = os.environ.get('FIREBASE_CREDENTIALS_JSON')
-cred = credentials.Certificate(json.loads(cred_json))
+#Initialize Firebase with credentials from Streamlit secrets
+cred = credentials.Certificate(st.secrets["firebase_credentials"])
 
 def fetch_scores():
     scores_ref = db.reference('users')  
@@ -28,7 +26,6 @@ if scores:
     )
     score_data = pd.DataFrame(sorted_scores, columns=["Name", "Score"])
 
-    
     st.table(score_data)
 
 else:
