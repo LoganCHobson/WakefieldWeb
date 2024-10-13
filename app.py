@@ -3,13 +3,13 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 import pandas as pd
+import json
 
-
-firebase_credentials = {
+firebase_credentials = json.loads(json.dumps({
     "type": st.secrets["type"],
     "project_id": st.secrets["project_id"],
     "private_key_id": st.secrets["private_key_id"],
-    "private_key": st.secrets["private_key"],
+    "private_key": st.secrets["private_key"].replace("\\n", "\n"),  # Ensure proper formatting
     "client_email": st.secrets["client_email"],
     "client_id": st.secrets["client_id"],
     "auth_uri": st.secrets["auth_uri"],
@@ -17,7 +17,7 @@ firebase_credentials = {
     "auth_provider_x509_cert_url": st.secrets["auth_provider_x509_cert_url"],
     "client_x509_cert_url": st.secrets["client_x509_cert_url"],
     "universe_domain": st.secrets["universe_domain"]
-}
+}))
 
 
 
