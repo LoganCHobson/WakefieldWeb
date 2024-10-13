@@ -4,7 +4,24 @@ from firebase_admin import credentials
 from firebase_admin import db
 import pandas as pd
 
-cred = credentials.Certificate('WakefieldWeb\.streamlit\secrets.json')  
+
+firebase_credentials = {
+    "type": st.secrets["type"],
+    "project_id": st.secrets["project_id"],
+    "private_key_id": st.secrets["private_key_id"],
+    "private_key": st.secrets["private_key"],
+    "client_email": st.secrets["client_email"],
+    "client_id": st.secrets["client_id"],
+    "auth_uri": st.secrets["auth_uri"],
+    "token_uri": st.secrets["token_uri"],
+    "auth_provider_x509_cert_url": st.secrets["auth_provider_x509_cert_url"],
+    "client_x509_cert_url": st.secrets["client_x509_cert_url"],
+    "universe_domain": st.secrets["universe_domain"]
+}
+
+
+
+cred = credentials.Certificate(firebase_credentials)  
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://wakefield-scoreboard-default-rtdb.firebaseio.com/'  
 })
