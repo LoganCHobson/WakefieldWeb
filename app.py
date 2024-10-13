@@ -5,6 +5,8 @@ from firebase_admin import db
 import pandas as pd
 import json
 
+
+st.title("Wakefield Leaderboard")
 #Initialize Firebase with credentials from Streamlit secrets
 cred = credentials.Certificate(st.secrets["firebase_credentials"])
 
